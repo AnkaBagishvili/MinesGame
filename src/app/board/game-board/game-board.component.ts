@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { PlayGroundComponent } from './play-ground/play-ground.component';
+import { PlayGroundComponent } from '../play-ground/play-ground.component';
 
 @Component({
   selector: 'app-game-board',

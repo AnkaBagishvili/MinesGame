@@ -1,0 +1,82 @@
+.betting-container {
+  position: relative;
+  max-width: 600px;
+}
+
+.keypad,
+.bet-variants {
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  background: #283593;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+  width: 300px;
+  z-index: 1000;
+}
+
+.keypad-grid,
+.variants-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+}
+
+button {
+  padding: 1rem;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+  background: #3949ab;
+  font-size: 1.1rem;
+}
+
+button:hover:not(:disabled) {
+  background: #4051b5;
+}
+
+.confirm-button {
+  grid-column: 1 / -1;
+  background: #4caf50;
+}
+
+.del-button {
+  background: #f44336;
+}
+
+.controls {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  padding: 1rem;
+  background: #1a237e;
+  border-radius: 8px;
+}
+
+.bet-input {
+  flex: 1;
+}
+
+.bet-input span {
+  display: block;
+  font-size: 0.875rem;
+  margin-bottom: 0.25rem;
+  color: #b0bec5;
+}
+
+.bet-input input {
+  width: 100%;
+  padding: 0.75rem;
+  background: #283593;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  font-size: 1rem;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
