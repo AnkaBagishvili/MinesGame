@@ -1,0 +1,38 @@
+<div class="header">
+  <div class="nav_bar">
+    <div class="game-selector">
+      <!-- Choose game -->
+      <button (click)="toggleDropdown()">
+        {{ currentGame }}
+        <span>▼</span>
+      </button>
+      <ul *ngIf="dropdownOpen">
+        <li *ngFor="let game of games" (click)="selectGame(game)">
+          {{ game }}
+        </li>
+      </ul>
+    </div>
+
+    <!-- How to play -->
+    <button class="how-to-play" (click)="showHowToPlay()">
+      <i class="fa-regular fa-circle-question"></i> How to Play?
+    </button>
+    <app-how-to-play
+      [isVisible]="isHowToPlayVisible"
+      (visibleChange)="isHowToPlayVisible = $event"
+    />
+  </div>
+  <div class="nav_bar">
+    <!-- Balance -->
+    <div class="balance">
+      {{ balance | currency : "USD" : "symbol" }}
+    </div>
+
+    <!-- Game Settings -->
+    <button class="menu-button" (click)="toggleMenu()">&#9776;</button>
+    <app-game-settings
+      [isVisible]="isSettingsVisible"
+      (visibleChange)="isSettingsVisible = $event"
+    />
+  </div>
+</div>

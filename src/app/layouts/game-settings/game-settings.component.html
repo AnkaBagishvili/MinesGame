@@ -1,0 +1,69 @@
+<div
+  *ngIf="isVisible"
+  class="settings-overlay"
+  (click)="onOverlayClick($event)"
+>
+  <div class="settings-panel">
+    <div class="settings-header">
+      <span>demo_20327</span>
+    </div>
+
+    <div class="settings-list">
+      <div class="settings-item">
+        <div class="item-left">
+          <span class="icon">🔊</span>
+          <span>Sound</span>
+        </div>
+        <div class="toggle-switch">
+          <label class="switch">
+            <input type="checkbox" [(ngModel)]="sound" />
+            <span class="slider"></span>
+          </label>
+        </div>
+      </div>
+
+      <div class="settings-item" (click)="onFreeBetsClick()">
+        <span class="icon">⭐</span>
+        <span>Free Bets</span>
+      </div>
+
+      <div class="settings-item" (click)="onBetHistoryClick()">
+        <span class="icon">🕒</span>
+        <span>Bet History</span>
+      </div>
+
+      <div class="settings-item" (click)="onGameLimitsClick()">
+        <span class="icon">📊</span>
+        <span>Game Limits</span>
+      </div>
+
+      <div class="settings-item" (click)="onHowToPlayClick()">
+        <span class="icon">❓</span>
+        <span>How to Play</span>
+      </div>
+
+      <div class="settings-item" (click)="onGameRulesClick()">
+        <span class="icon">📋</span>
+        <span>Game Rules</span>
+      </div>
+
+      <div class="settings-item" (click)="onProvablyFairClick()">
+        <span class="icon">🎲</span>
+        <span>Provably Fair Settings</span>
+      </div>
+
+      <div class="settings-item back-home" (click)="onBackToHomeClick()">
+        <span class="icon">🏠</span>
+        <span>Back to Home</span>
+      </div>
+    </div>
+
+    <div class="footer">
+      <div class="provably-fair">
+        <span class="icon">✓</span>
+        <span>Provably Fair Game</span>
+      </div>
+      <div class="spribe-logo">© SPRIBE</div>
+    </div>
+  </div>
+</div>

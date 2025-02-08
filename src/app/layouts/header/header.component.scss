@@ -1,0 +1,85 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(to right, rgb(30 29 76), rgb(77 75 186));
+  color: rgb(33, 33, 33);
+  padding: 10px 20px;
+  border-radius: 10px;
+  max-width: 950px;
+  height: 520;
+}
+
+.game-selector {
+  position: relative;
+}
+
+.game-selector button {
+  background: #0066cc;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.game-selector ul {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  background: rgb(30, 29, 29);
+  color: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  overflow: hidden;
+  z-index: 1000;
+}
+
+.game-selector li {
+  padding: 10px 15px;
+  cursor: pointer;
+}
+
+.game-selector li:hover {
+  background: #eee;
+}
+
+.how-to-play {
+  background: orange;
+  color: black;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.how-to-play .fa-regular {
+  font-size: 1.2em;
+  margin-right: 5px;
+}
+
+.balance {
+  font-weight: bold;
+  font-size: 1.2em;
+  color: white;
+}
+
+.menu-button {
+  background: none;
+  color: white;
+  border: none;
+  font-size: 1.5em;
+  cursor: pointer;
+}
+
+.nav_bar {
+  display: flex;
+  column-gap: 10px;
+  justify-content: center;
+  align-items: center;
+}
