@@ -1,82 +1,135 @@
-.betting-container {
+.bet-container {
   position: relative;
-  max-width: 600px;
-}
-
-.keypad,
-.bet-variants {
-  position: absolute;
-  bottom: 100%;
-  left: 0;
-  background: #283593;
-  padding: 1rem;
-  border-radius: 8px;
-  margin-bottom: 0.5rem;
+  font-family: Arial, sans-serif;
+  display: flex;
   width: 300px;
-  z-index: 1000;
+  height: 50px;
+  background: #0066cc;
+  align-items: center;
+  justify-content: space-between;
+  border: 2px solid black;
+  border-radius: 20px;
+}
+.bet-place {
+  display: flex;
+  flex-direction: column;
+}
+.bet-input {
+  width: 124px;
+  height: 24px;
+  padding: 8px 12px;
+  border: 1px solid #0066cc;
+  border-radius: 4px;
+  font-size: 16px;
+  background: #fff;
 }
 
-.keypad-grid,
-.variants-grid {
+.keypad {
+  position: absolute;
+  top: -450%;
+  left: 0;
+  z-index: 10;
+  background: #003366;
+  border-radius: 8px;
+  padding: 12px;
+  width: 280px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.number-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 0.5rem;
+  gap: 8px;
+  margin-bottom: 8px;
 }
 
-button {
-  padding: 1rem;
-  border: none;
-  border-radius: 4px;
+.keypad-button {
+  padding: 16px;
+  font-size: 20px;
   color: white;
+  background: #0066cc;
+  border: none;
+  border-radius: 6px;
   cursor: pointer;
-  background: #3949ab;
-  font-size: 1.1rem;
+  transition: background-color 0.2s;
 }
 
-button:hover:not(:disabled) {
-  background: #4051b5;
+.keypad-button:hover {
+  background: #0077ee;
 }
 
 .confirm-button {
-  grid-column: 1 / -1;
-  background: #4caf50;
-}
-
-.del-button {
-  background: #f44336;
-}
-
-.controls {
-  display: flex;
-  gap: 1rem;
-  align-items: center;
-  padding: 1rem;
-  background: #1a237e;
-  border-radius: 8px;
-}
-
-.bet-input {
-  flex: 1;
-}
-
-.bet-input span {
-  display: block;
-  font-size: 0.875rem;
-  margin-bottom: 0.25rem;
-  color: #b0bec5;
-}
-
-.bet-input input {
   width: 100%;
-  padding: 0.75rem;
-  background: #283593;
+  padding: 12px;
+  background: #00aa44;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 20px;
+  cursor: pointer;
+  margin-bottom: 8px;
+}
+
+.confirm-button:hover {
+  background: #00bb55;
+}
+
+.bet-controls {
+  padding: 8px;
+}
+
+.bet-label {
+  color: white;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.bet-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.action-button {
+  flex: 1;
   border: none;
   border-radius: 4px;
+  background: #0066cc;
   color: white;
-  font-size: 1rem;
+  font-size: 20px;
+  cursor: pointer;
+  border: 1px solid black;
+  border-radius: 20px;
 }
 
-button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
+.stack-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bet-variants {
+  position: absolute;
+  top: -300%;
+  left: 30%;
+  z-index: 20;
+  background: #003366;
+  border-radius: 8px;
+  padding: 12px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.variant-button {
+  padding: 8px;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  background: #0066cc;
+}
+
+.variant-button.active {
+  background: #00aa44;
 }

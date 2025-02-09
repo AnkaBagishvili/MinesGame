@@ -1,82 +1,58 @@
-<div class="betting-container">
-  <!-- Numeric Keypad -->
-  <div class="keypad" *ngIf="showKeypad()">
-    <div class="keypad-grid">
-      <ng-container *ngFor="let num of [1, 2, 3, 4, 5, 6, 7, 8, 9]">
+<div class="bet-container">
+  <div class="div" class="bet-place">
+    <p class="bet-label">Bet USD</p>
+
+    <input
+      [value]="inputValue"
+      [disabled]="!isGameEnabled()"
+      (click)="showKeypad.set(true)"
+      class="bet-input"
+      readonly
+    />
+
+    <div *ngIf="showKeypad()" class="keypad">
+      <div class="number-grid">
+        @for (num of ['1','2','3','4','5','6','7','8','9','.','0','←']; track
+        num) {
         <button
-          class="num-button"
-          (click)="onKeypadClick(num.toString())"
-          [disabled]="!isGameEnabled()"
+          (click)="handleKeypadInput(num)"
+          class="keypad-button"
+          [class.wide]="num === '←'"
+          [class.confirm-button]="num === '←'"
         >
-          {{ num }}
+          {{ num === "←" ? "⌫" : num }}
         </button>
-      </ng-container>
-      <button
-        class="num-button"
-        (click)="onKeypadClick('.')"
-        [disabled]="!isGameEnabled()"
-      >
-        .
-      </button>
-      <button
-        class="num-button"
-        (click)="onKeypadClick('0')"
-        [disabled]="!isGameEnabled()"
-      >
-        0
-      </button>
-      <button
-        class="del-button"
-        (click)="onDelete()"
-        [disabled]="!isGameEnabled()"
-      >
-        ⌫
-      </button>
-      <button
-        class="confirm-button"
-        (click)="confirmInput()"
-        [disabled]="!isValidBet()"
-      >
-        ✓
-      </button>
+        }
+      </div>
+      <button class="confirm-button" (click)="confirmInput()">✓</button>
     </div>
   </div>
 
   <!-- Bet Variants -->
-  <div class="bet-variants" *ngIf="showVariants()">
-    <div class="variants-grid">
-      <button
-        *ngFor="let amount of betVariants"
-        class="variant-button"
-        (click)="selectBetAmount(amount)"
-        [disabled]="!isGameEnabled()"
-      >
-        {{ amount.toFixed(2) }}
+  <div class="bet-controls">
+    <div class="bet-actions">
+      <button class="action-button decrease" (click)="adjustBet(-0.1)">
+        −
       </button>
+      <button
+        class="action-button variants"
+        (click)="showVariants.set(!showVariants())"
+      >
+        <div class="stack-icon">≡</div>
+      </button>
+      <button class="action-button increase" (click)="adjustBet(0.1)">+</button>
     </div>
   </div>
 
-  <!-- Main Controls -->
-  <div class="controls">
-    <div class="bet-input">
-      <span>Bet USD</span>
-      <input
-        #betInput
-        type="text"
-        [(ngModel)]="inputValue"
-        (click)="toggleKeypad()"
-        (keydown)="onKeyDown($event)"
-        (blur)="onInputBlur()"
-        [disabled]="!isGameEnabled()"
-      />
-    </div>
-
-    <div class="bet-controls">
-      <button (click)="decreaseBet()" [disabled]="!isGameEnabled()">-</button>
-      <button (click)="toggleVariants()" [disabled]="!isGameEnabled()">
-        ≣
-      </button>
-      <button (click)="increaseBet()" [disabled]="!isGameEnabled()">+</button>
-    </div>
+  <div class="bet-variants" *ngIf="showVariants()">
+    @for (variant of betVariants; track variant) {
+    <button
+      (click)="selectBetVariant(variant)"
+      [class.active]="currentBet() === variant"
+      class="variant-button"
+    >
+      {{ variant.toFixed(2) }}
+    </button>
+    }
   </div>
 </div>
