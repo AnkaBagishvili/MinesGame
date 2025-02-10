@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Box } from '../../interfaces/box';
 import { NgFor, NgIf, NgStyle } from '@angular/common';
 import { GameServiceService } from '../../services/game-service.service';
+import { ProgressBarService } from '../../services/progress-bar.service';
 
 @Component({
   selector: 'app-play-ground',
@@ -23,7 +24,10 @@ export class PlayGroundComponent implements OnInit, OnDestroy {
     return this.gameService.restartCountdown;
   }
 
-  constructor(private gameService: GameServiceService) {}
+  constructor(
+    private gameService: GameServiceService,
+    private progressBarService: ProgressBarService
+  ) {}
 
   ngOnInit() {
     this.gameService.initializeGame();
@@ -35,5 +39,6 @@ export class PlayGroundComponent implements OnInit, OnDestroy {
 
   revealBox(index: number) {
     this.gameService.revealBox(index);
+    this.progressBarService.calculateProgress();
   }
 }
