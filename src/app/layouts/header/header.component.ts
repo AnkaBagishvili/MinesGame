@@ -2,6 +2,7 @@ import { CurrencyPipe, NgFor, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { HowToPlayComponent } from '../how-to-play/how-to-play.component';
 import { GameSettingsComponent } from '../game-settings/game-settings.component';
+import { BalanceService } from '../../services/balance.service';
 
 @Component({
   selector: 'app-header',
@@ -19,10 +20,17 @@ import { GameSettingsComponent } from '../game-settings/game-settings.component'
 export class HeaderComponent {
   games = ['MINES', 'SLOTS', 'BLACKJACK'];
   currentGame = 'MINES';
-  balance = 3000.28;
   dropdownOpen = false;
+  isHowToPlayVisible: boolean = false;
+  isSettingsVisible = false;
+  balance: number = 0;
 
-  //Choose Game
+  constructor(private balanceService: BalanceService) {
+    this.balanceService.balance$.subscribe((balance) => {
+      this.balance = balance;
+    });
+  }
+
   toggleDropdown() {
     this.dropdownOpen = !this.dropdownOpen;
   }
@@ -32,17 +40,19 @@ export class HeaderComponent {
     this.dropdownOpen = false;
   }
 
-  //How to play
-  isHowToPlayVisible: boolean = false;
-
   showHowToPlay() {
     this.isHowToPlayVisible = true;
   }
 
-  //GameSettings
-  isSettingsVisible = false;
-
   toggleMenu() {
     this.isSettingsVisible = true;
+  }
+
+  placeBet(amount: number) {
+    this.balanceService.updateBalance(-amount);
+  }
+
+  addWin(amount: number) {
+    this.balanceService.updateBalance(amount);
   }
 }
