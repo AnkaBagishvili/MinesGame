@@ -1,21 +1,114 @@
-.progress-bar-container {
+.chooseMines {
+  display: flex;
+  justify-content: space-around;
+  padding-top: 5px;
+}
+.nav_bar {
+  max-width: 420px;
   width: 100%;
-  height: 20px;
-  background-color: transparent;
-  border: 2px solid black;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 10px;
+  background: linear-gradient(to bottom, #004d99, #003366);
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+.mines-selector {
+  position: relative;
+  z-index: 1;
+
+  > button {
+    background: linear-gradient(to bottom, #003366, #002244);
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 100px;
+
+    span {
+      font-size: 12px;
+    }
+  }
+}
+
+.mines-list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: #003366;
+  border-radius: 5px;
+  margin-top: 5px;
+  width: 100%;
+  max-height: 200px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #002244;
+    border-radius: 3px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #004d99;
+    border-radius: 3px;
+  }
+
+  button {
+    width: 100%;
+    text-align: left;
+    padding: 8px 15px;
+    background: transparent;
+    color: white;
+    border: none;
+    cursor: pointer;
+
+    &:hover,
+    &.active {
+      background: #004d99;
+    }
+  }
+}
+
+.multiplier p {
+  color: white;
+  background: #ffa500;
+  padding: 8px 15px;
+  border-radius: 5px;
+  margin: 0;
+  font-weight: bold;
+}
+.progress {
+  display: flex;
+  justify-content: space-around;
+}
+.progress-bar-container {
+  max-width: 420px;
+  width: 100%;
+  height: 5px;
+  background-color: #e0e0e0;
   border-radius: 10px;
   overflow: hidden;
-  margin: 10px 0;
+  position: relative;
 }
 
 .progress-bar {
   height: 100%;
   background-color: #4caf50;
-  transition: width 0.3s ease-in-out;
+  transition: width 0.3s ease;
 }
 
 .progress-label {
   text-align: center;
-  font-weight: bold;
+  font-size: 14px;
   margin-top: 5px;
 }

@@ -1,3 +1,28 @@
-<div class="progress-bar-container">
-  <div class="progress-bar" [style.width.%]="progress"></div>
+<div class="chooseMines">
+  <div class="nav_bar">
+    <div class="mines-selector">
+      <!-- Choose Mines -->
+      <button (click)="toggleDropdown()">
+        Mines: {{ currentMines }}
+        <span>▼</span>
+      </button>
+      <div class="mines-list" *ngIf="dropdownOpen">
+        <button
+          *ngFor="let mine of mines"
+          (click)="selectMines(mine)"
+          [class.active]="currentMines === mine"
+        >
+          {{ mine }}
+        </button>
+      </div>
+    </div>
+    <div class="multiplier">
+      <p>Next: 1.10x</p>
+    </div>
+  </div>
+</div>
+<div class="progress">
+  <div class="progress-bar-container">
+    <div class="progress-bar" [style.width.%]="progress"></div>
+  </div>
 </div>

@@ -8,10 +8,15 @@ export class GameServiceService {
   boxes: Box[] = [];
   gameOver: boolean = false;
   readonly TOTAL_BOXES = 25;
-  readonly BOMB_COUNT = 5;
+  BOMB_COUNT = 5;
   restartCountdown: number = 5;
   private countdownInterval: any;
   private restartTimeout: any;
+
+  setBombCount(mines: number) {
+    this.BOMB_COUNT = mines;
+    this.initializeGame();
+  }
 
   initializeGame() {
     this.clearTimers();

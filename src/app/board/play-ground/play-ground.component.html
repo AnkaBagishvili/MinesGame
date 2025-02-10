@@ -1,25 +1,27 @@
-<div class="playground-container">
-  <div class="grid">
-    <div
-      *ngFor="let box of boxes; let i = index"
-      class="box"
-      [ngStyle]="{
-        'background-color': box.isRevealed
-          ? box.isClicked
-            ? box.isBomb
-              ? '#f86465'
-              : '#f8a717'
+<div class="playground">
+  <div class="playground-container">
+    <div class="grid">
+      <div
+        *ngFor="let box of boxes; let i = index"
+        class="box"
+        [ngStyle]="{
+          'background-color': box.isRevealed
+            ? box.isClicked
+              ? box.isBomb
+                ? '#f86465'
+                : '#f8a717'
+              : '#0055aa'
             : '#0055aa'
-          : '#0055aa'
-      }"
-      (click)="revealBox(i)"
-    >
-      <span *ngIf="box.isRevealed">
-        {{ box.isBomb ? (box.isClicked ? "💥" : "💣") : "⭐" }}
-      </span>
+        }"
+        (click)="revealBox(i)"
+      >
+        <span *ngIf="box.isRevealed">
+          {{ box.isBomb ? (box.isClicked ? "💥" : "💣") : "⭐" }}
+        </span>
+      </div>
     </div>
-  </div>
-  <div class="status" *ngIf="gameOver">
-    Game Over! Restarting in {{ restartCountdown }} seconds...
+    <div class="status" *ngIf="gameOver">
+      Game Over! Restarting in {{ restartCountdown }} seconds...
+    </div>
   </div>
 </div>
