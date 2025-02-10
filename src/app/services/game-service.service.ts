@@ -1,5 +1,7 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { Box } from '../interfaces/box';
+import { Subject } from 'rxjs';
+import { ProgressBarService } from './progress-bar.service';
 
 @Injectable({
   providedIn: 'root',
@@ -12,6 +14,7 @@ export class GameServiceService {
   restartCountdown: number = 5;
   private countdownInterval: any;
   private restartTimeout: any;
+  gameInitialized$: any;
 
   setBombCount(mines: number) {
     this.BOMB_COUNT = mines;
@@ -83,5 +86,66 @@ export class GameServiceService {
     if (this.restartTimeout) {
       clearTimeout(this.restartTimeout);
     }
+  }
+
+  //Randomizer
+  private getUnrevealedSafeBoxes(): number[] {
+    return this.boxes
+      .map((box, index) => ({ box, index }))
+      .filter(({ box }) => !box.isRevealed && !box.isBomb)
+      .map(({ index }) => index);
+  }
+
+  private getUnrevealedBoxes(): number[] {
+    return this.boxes
+      .map((box, index) => ({ box, index }))
+      .filter(({ box }) => !box.isRevealed)
+      .map(({ index }) => index);
+  }
+
+  randomReveal(preferSafe: boolean = true) {
+    if (this.gameOver) {
+      return;
+    }
+
+    let availableBoxes = preferSafe
+      ? this.getUnrevealedSafeBoxes()
+      : this.getUnrevealedBoxes();
+
+    if (availableBoxes.length === 0 && !this.gameOver && preferSafe) {
+      availableBoxes = this.getUnrevealedBoxes();
+    }
+
+    if (availableBoxes.length === 0) {
+      return;
+    }
+
+    const randomIndex = Math.floor(Math.random() * availableBoxes.length);
+    const boxToReveal = availableBoxes[randomIndex];
+
+    this.revealBox(boxToReveal);
+  }
+
+  autoReveal(
+    count: number = 1,
+    intervalMs: number = 100,
+    preferSafe: boolean = true
+  ) {
+    if (this.gameOver || count <= 0) {
+      return;
+    }
+
+    let revealed = 0;
+    const interval = setInterval(() => {
+      if (this.gameOver || revealed >= count) {
+        clearInterval(interval);
+        return;
+      }
+
+      this.randomReveal(preferSafe);
+      revealed++;
+    }, intervalMs);
+
+    return interval;
   }
 }
