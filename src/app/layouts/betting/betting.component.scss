@@ -30,7 +30,7 @@
 
 .keypad {
   position: absolute;
-  top: -450%;
+  bottom: 100%;
   left: 0;
   z-index: 10;
   background: #003366;
@@ -110,7 +110,7 @@
 
 .bet-variants {
   position: absolute;
-  top: -300%;
+  bottom: 100%;
   left: 30%;
   z-index: 20;
   background: #003366;

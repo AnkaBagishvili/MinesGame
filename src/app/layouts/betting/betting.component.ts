@@ -25,12 +25,20 @@ export class BettingComponent {
     this.inputValue = this.currentBet().toFixed(2);
   }
 
+  onInputFocus() {
+    if (this.inputValue) {
+      this.inputValue = '';
+    }
+  }
+
   @HostListener('document:click', ['$event'])
   onMouseClick(event: MouseEvent) {
     const element = event.target as HTMLElement;
     if (!element.closest('.bet-container')) {
       this.showKeypad.set(false);
       this.showVariants.set(false);
+
+      this.inputValue = this.clampInputValue(this.inputValue);
     }
   }
 
@@ -47,9 +55,6 @@ export class BettingComponent {
       case 'Backspace':
         this.handleKeypadInput('←');
         break;
-      case '.':
-        this.handleKeypadInput('.');
-        break;
       case 'Escape':
         this.showKeypad.set(false);
         this.showVariants.set(false);
@@ -63,66 +68,22 @@ export class BettingComponent {
   handleKeypadInput(value: string) {
     if (!this.isGameEnabled()) return;
 
-    // Handle backspace
     if (value === '←') {
       this.inputValue = this.inputValue.slice(0, -1);
       if (this.inputValue === '') this.inputValue = '0';
       return;
     }
 
-    // If starting new input, clear the field
-    if (this.inputValue === '0' || this.inputValue === '0.00') {
-      if (value === '.') {
-        this.inputValue = '0.';
-      } else {
-        this.inputValue = value;
-      }
-      return;
-    }
-
-    // Handle decimal point
-    if (value === '.') {
-      if (!this.inputValue.includes('.')) {
-        this.inputValue += '.';
-      }
-      return;
-    }
-
-    // Remove any trailing zeros after decimal
-    let cleanValue = this.inputValue.replace(/\.?0+$/, '');
-
-    // If no decimal point yet
-    if (!cleanValue.includes('.')) {
-      if (cleanValue.length === 2) {
-        // Automatically add decimal point after 2 digits
-        cleanValue = cleanValue + '.';
-      }
-    }
-
-    // Handle digits
-    const newValue = cleanValue + value;
-
-    if (this.isValidInput(newValue)) {
-      this.inputValue = newValue;
-
-      // Format with trailing zeros if we have a decimal point
-      if (this.inputValue.includes('.')) {
-        const parts = this.inputValue.split('.');
-        if (parts[1].length === 0) {
-          this.inputValue += '00';
-        } else if (parts[1].length === 1) {
-          this.inputValue += '0';
-        }
-      }
-    }
+    this.inputValue += value;
   }
 
-  adjustBet(amount: number) {
-    const currentValue = parseFloat(this.inputValue);
-    const newValue = (currentValue + amount).toFixed(2);
-    if (this.isValidInput(newValue)) {
-      this.inputValue = newValue;
-      this.currentBet.set(parseFloat(newValue));
+  confirmInput() {
+    this.inputValue = this.clampInputValue(this.inputValue);
+
+    const numValue = parseFloat(this.inputValue);
+    if (this.isValidInput(this.inputValue)) {
+      this.currentBet.set(numValue);
+      this.showKeypad.set(false);
     }
   }
 
@@ -134,32 +95,39 @@ export class BettingComponent {
     this.showVariants.set(false);
   }
 
-  confirmInput() {
-    const numValue = parseFloat(this.inputValue);
-    if (
-      this.isValidInput(this.inputValue) &&
-      numValue >= 0.1 &&
-      numValue <= 100
-    ) {
-      this.currentBet.set(numValue);
-      this.showKeypad.set(false);
-      // Format the input value to always show 2 decimal places
-      this.inputValue = numValue.toFixed(2);
+  adjustBet(isIncrease: boolean) {
+    const currentValue = this.currentBet();
+    const currentIndex = this.betVariants.indexOf(currentValue);
+
+    let newIndex;
+    if (isIncrease) {
+      newIndex =
+        currentIndex < this.betVariants.length - 1
+          ? currentIndex + 1
+          : currentIndex;
+    } else {
+      newIndex = currentIndex > 0 ? currentIndex - 1 : currentIndex;
     }
+
+    const newValue = this.betVariants[newIndex];
+    this.currentBet.set(newValue);
+    this.inputValue = newValue.toFixed(2);
   }
 
   private isValidInput(value: string): boolean {
     if (!value) return false;
 
     const numValue = parseFloat(value);
-    if (isNaN(numValue)) return false;
+    return !isNaN(numValue) && numValue >= 0.1 && numValue <= 100;
+  }
 
-    // Allow incomplete decimal inputs during typing
-    if (value.endsWith('.')) return true;
+  private clampInputValue(value: string): string {
+    const numValue = parseFloat(value);
+    if (isNaN(numValue)) return '0.10';
 
-    // Check decimal places
-    if (value.includes('.') && value.split('.')[1].length > 2) return false;
+    if (numValue < 0.1) return '0.10';
+    if (numValue > 100) return '100.00';
 
-    return numValue >= 0 && numValue <= 100;
+    return numValue.toFixed(2);
   }
 }

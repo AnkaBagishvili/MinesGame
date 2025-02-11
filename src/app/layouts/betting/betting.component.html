@@ -6,6 +6,7 @@
       [value]="inputValue"
       [disabled]="!isGameEnabled()"
       (click)="showKeypad.set(true)"
+      (focus)="onInputFocus()"
       class="bet-input"
       readonly
     />
@@ -31,7 +32,7 @@
   <!-- Bet Variants -->
   <div class="bet-controls">
     <div class="bet-actions">
-      <button class="action-button decrease" (click)="adjustBet(-0.1)">
+      <button class="action-button decrease" (click)="adjustBet(false)">
         −
       </button>
       <button
@@ -40,7 +41,9 @@
       >
         <div class="stack-icon">≡</div>
       </button>
-      <button class="action-button increase" (click)="adjustBet(0.1)">+</button>
+      <button class="action-button increase" (click)="adjustBet(true)">
+        +
+      </button>
     </div>
   </div>
 
