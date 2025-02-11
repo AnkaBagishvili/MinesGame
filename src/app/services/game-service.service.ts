@@ -33,6 +33,7 @@ export class GameServiceService {
         isRevealed: false,
         isBomb: false,
         isClicked: false,
+        isStar: true,
       });
     }
 
