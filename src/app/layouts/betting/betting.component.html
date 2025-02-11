@@ -3,15 +3,15 @@
     <p class="bet-label">Bet USD</p>
 
     <input
-      [value]="inputValue()"
-      [disabled]="!isGameEnabled()"
+      [value]="inputValue.value"
+      [disabled]="!isGameEnabled.value"
       (click)="setShowKeypad(true)"
       (focus)="onInputFocus()"
       class="bet-input"
       readonly
     />
 
-    <div *ngIf="showKeypad()" class="keypad">
+    <div *ngIf="showKeypad.value" class="keypad">
       <div class="number-grid">
         @for (num of ['1','2','3','4','5','6','7','8','9','.','0','←']; track
         num) {
@@ -29,6 +29,7 @@
     </div>
   </div>
 
+  <!-- Bet Variants -->
   <div class="bet-controls">
     <div class="bet-actions">
       <button class="action-button decrease" (click)="adjustBet(false)">
@@ -43,11 +44,11 @@
     </div>
   </div>
 
-  <div class="bet-variants" *ngIf="showVariants()">
+  <div class="bet-variants" *ngIf="showVariants.value">
     @for (variant of betVariants; track variant) {
     <button
       (click)="selectBetVariant(variant)"
-      [class.active]="currentBet() === variant"
+      [class.active]="currentBet.value === variant"
       class="variant-button"
     >
       {{ variant.toFixed(2) }}

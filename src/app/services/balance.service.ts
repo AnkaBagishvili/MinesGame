@@ -13,7 +13,6 @@ export class BalanceService {
   }
 
   updateBalance(amount: number) {
-    const newBalance = this._balance.value + amount;
-    this._balance.next(newBalance);
+    this._balance.next(this._balance.value + amount);
   }
 }

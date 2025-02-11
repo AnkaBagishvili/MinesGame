@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { BettingService } from '../../services/betting.service';
 
 @Component({
   selector: 'app-play-button',
@@ -8,14 +9,12 @@ import { Component } from '@angular/core';
   styleUrl: './play-button.component.scss',
 })
 export class PlayButtonComponent {
-  // placeBet() {
-  //   this.isGameEnabled.set(false);
-  //   // Here you would implement the actual game logic
-  //   console.log(`Placing bet of ${this.currentBet()} USD`);
-  //   console.log(`Auto game is ${this.isAutoGame() ? 'enabled' : 'disabled'}`);
-  //   // For demo purposes, re-enable after 2 seconds
-  //   setTimeout(() => {
-  //     this.isGameEnabled.set(true);
-  //   }, 2000);
-  // }
+  constructor(private bettingService: BettingService) {}
+
+  onPlaceBet() {
+    const success = this.bettingService.placeBet();
+    if (success) {
+      console.log('Bet placed successfully!');
+    }
+  }
 }

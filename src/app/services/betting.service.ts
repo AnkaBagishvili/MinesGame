@@ -1,4 +1,6 @@
 import { Injectable, signal } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
+import { BalanceService } from './balance.service';
 
 @Injectable({
   providedIn: 'root',
@@ -9,22 +11,31 @@ export class BettingService {
     100.0,
   ];
 
-  private currentBet = signal(0.1);
-  private showKeypad = signal(false);
-  private showVariants = signal(false);
-  private isGameEnabled = signal(true);
-  private inputValue = signal('0.10');
+  private _currentBet = new BehaviorSubject<number>(0.1);
+  currentBet$ = this._currentBet.asObservable();
 
-  constructor() {
-    this.inputValue.set(this.currentBet().toFixed(2));
+  private _currentMultiplier = new BehaviorSubject<number>(1);
+  currentMultiplier$ = this._currentMultiplier.asObservable();
+
+  private showKeypad = new BehaviorSubject<boolean>(false);
+  private showVariants = new BehaviorSubject<boolean>(false);
+  private isGameEnabled = new BehaviorSubject<boolean>(true);
+  private inputValue = new BehaviorSubject<string>('0.10');
+
+  constructor(private balanceService: BalanceService) {
+    this.inputValue.next(this._currentBet.value.toFixed(2));
   }
 
   getBetVariants() {
     return this.betVariants;
   }
 
+  get currentBet(): number {
+    return this._currentBet.value;
+  }
+
   getCurrentBet() {
-    return this.currentBet;
+    return this._currentBet;
   }
 
   getShowKeypad() {
@@ -43,22 +54,38 @@ export class BettingService {
     return this.inputValue;
   }
 
+  // Betting methods
+  setCurrentBet(value: number) {
+    this._currentBet.next(value);
+    this.inputValue.next(value.toFixed(2));
+  }
+
+  placeBet(): boolean {
+    const betAmount = this._currentBet.value;
+    if (betAmount > this.balanceService.balance) {
+      alert('Insufficient balance to place this bet!');
+      return false;
+    }
+    this.balanceService.updateBalance(-betAmount);
+    return true;
+  }
+
   onInputFocus() {
-    if (this.inputValue()) {
-      this.inputValue.set('');
+    if (this.inputValue.value) {
+      this.inputValue.next('');
     }
   }
 
   handleDocumentClick(element: HTMLElement) {
     if (!element.closest('.bet-container')) {
-      this.showKeypad.set(false);
-      this.showVariants.set(false);
-      this.inputValue.set(this.clampInputValue(this.inputValue()));
+      this.showKeypad.next(false);
+      this.showVariants.next(false);
+      this.inputValue.next(this.clampInputValue(this.inputValue.value));
     }
   }
 
   handleKeyboardInput(event: KeyboardEvent) {
-    if (!this.isGameEnabled()) return;
+    if (!this.isGameEnabled.value) return;
 
     if (/^\d$/.test(event.key)) {
       this.handleKeypadInput(event.key);
@@ -70,8 +97,8 @@ export class BettingService {
         this.handleKeypadInput('←');
         break;
       case 'Escape':
-        this.showKeypad.set(false);
-        this.showVariants.set(false);
+        this.showKeypad.next(false);
+        this.showVariants.next(false);
         break;
       case 'Enter':
         this.confirmInput();
@@ -80,38 +107,38 @@ export class BettingService {
   }
 
   handleKeypadInput(value: string) {
-    if (!this.isGameEnabled()) return;
+    if (!this.isGameEnabled.value) return;
 
     if (value === '←') {
-      const newValue = this.inputValue().slice(0, -1);
-      this.inputValue.set(newValue === '' ? '0' : newValue);
+      const newValue = this.inputValue.value.slice(0, -1);
+      this.inputValue.next(newValue === '' ? '0' : newValue);
       return;
     }
 
-    this.inputValue.set(this.inputValue() + value);
+    this.inputValue.next(this.inputValue.value + value);
   }
 
   confirmInput() {
-    const clampedValue = this.clampInputValue(this.inputValue());
-    this.inputValue.set(clampedValue);
+    const clampedValue = this.clampInputValue(this.inputValue.value);
+    this.inputValue.next(clampedValue);
 
     const numValue = parseFloat(clampedValue);
     if (this.isValidInput(clampedValue)) {
-      this.currentBet.set(numValue);
-      this.showKeypad.set(false);
+      this._currentBet.next(numValue);
+      this.showKeypad.next(false);
     }
   }
 
   selectBetVariant(value: number) {
-    if (!this.isGameEnabled()) return;
+    if (!this.isGameEnabled.value) return;
 
-    this.currentBet.set(value);
-    this.inputValue.set(value.toFixed(2));
-    this.showVariants.set(false);
+    this._currentBet.next(value);
+    this.inputValue.next(value.toFixed(2));
+    this.showVariants.next(false);
   }
 
   adjustBet(isIncrease: boolean) {
-    const currentValue = this.currentBet();
+    const currentValue = this._currentBet.value;
     const currentIndex = this.betVariants.indexOf(currentValue);
 
     let newIndex;
@@ -125,16 +152,16 @@ export class BettingService {
     }
 
     const newValue = this.betVariants[newIndex];
-    this.currentBet.set(newValue);
-    this.inputValue.set(newValue.toFixed(2));
+    this._currentBet.next(newValue);
+    this.inputValue.next(newValue.toFixed(2));
   }
 
   toggleShowVariants() {
-    this.showVariants.update((value) => !value);
+    this.showVariants.next(!this.showVariants.value);
   }
 
   setShowKeypad(value: boolean) {
-    this.showKeypad.set(value);
+    this.showKeypad.next(value);
   }
 
   private isValidInput(value: string): boolean {

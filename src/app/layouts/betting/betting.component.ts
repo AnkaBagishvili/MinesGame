@@ -2,6 +2,7 @@ import { NgIf } from '@angular/common';
 import { Component, HostListener, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BettingService } from '../../services/betting.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-betting',
@@ -17,6 +18,7 @@ export class BettingComponent {
   readonly showVariants;
   readonly isGameEnabled;
   readonly inputValue;
+  currentBet$: Observable<number>;
 
   constructor(private bettingService: BettingService) {
     this.betVariants = this.bettingService.getBetVariants();
@@ -25,6 +27,15 @@ export class BettingComponent {
     this.showVariants = this.bettingService.getShowVariants();
     this.isGameEnabled = this.bettingService.getIsGameEnabled();
     this.inputValue = this.bettingService.getInputValue();
+    this.currentBet$ = this.bettingService.currentBet$;
+  }
+
+  ngOnInit() {
+    this.inputValue.next(this.bettingService.currentBet.toFixed(2));
+  }
+
+  placeBet() {
+    return this.bettingService.placeBet();
   }
 
   setShowKeypad(value: boolean) {
