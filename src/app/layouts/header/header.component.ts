@@ -31,21 +31,9 @@ export class HeaderComponent {
     });
   }
 
-  toggleDropdown() {
-    this.dropdownOpen = !this.dropdownOpen;
-  }
-
   selectGame(game: string) {
     this.currentGame = game;
     this.dropdownOpen = false;
-  }
-
-  showHowToPlay() {
-    this.isHowToPlayVisible = true;
-  }
-
-  toggleMenu() {
-    this.isSettingsVisible = true;
   }
 
   placeBet(amount: number) {

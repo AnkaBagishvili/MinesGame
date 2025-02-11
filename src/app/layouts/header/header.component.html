@@ -2,7 +2,7 @@
   <div class="nav_bar">
     <div class="game-selector">
       <!-- Choose game -->
-      <button (click)="toggleDropdown()">
+      <button (click)="dropdownOpen = !dropdownOpen">
         {{ currentGame }}
         <span>▼</span>
       </button>
@@ -14,7 +14,7 @@
     </div>
 
     <!-- How to play -->
-    <button class="how-to-play" (click)="showHowToPlay()">
+    <button class="how-to-play" (click)="this.isHowToPlayVisible = true">
       <i class="fa-regular fa-circle-question"></i> How to Play?
     </button>
     <app-how-to-play
@@ -29,7 +29,9 @@
     </div>
 
     <!-- Game Settings -->
-    <button class="menu-button" (click)="toggleMenu()">&#9776;</button>
+    <button class="menu-button" (click)="isSettingsVisible = true">
+      &#9776;
+    </button>
     <app-game-settings
       [isVisible]="isSettingsVisible"
       (visibleChange)="isSettingsVisible = $event"
