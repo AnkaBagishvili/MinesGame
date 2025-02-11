@@ -3,9 +3,9 @@
     <p class="bet-label">Bet USD</p>
 
     <input
-      [value]="inputValue"
+      [value]="inputValue()"
       [disabled]="!isGameEnabled()"
-      (click)="showKeypad.set(true)"
+      (click)="setShowKeypad(true)"
       (focus)="onInputFocus()"
       class="bet-input"
       readonly
@@ -29,16 +29,12 @@
     </div>
   </div>
 
-  <!-- Bet Variants -->
   <div class="bet-controls">
     <div class="bet-actions">
       <button class="action-button decrease" (click)="adjustBet(false)">
         −
       </button>
-      <button
-        class="action-button variants"
-        (click)="showVariants.set(!showVariants())"
-      >
+      <button class="action-button variants" (click)="toggleShowVariants()">
         <div class="stack-icon">≡</div>
       </button>
       <button class="action-button increase" (click)="adjustBet(true)">

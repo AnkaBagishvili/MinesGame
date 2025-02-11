@@ -1,6 +1,7 @@
 import { NgIf } from '@angular/common';
 import { Component, HostListener, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { BettingService } from '../../services/betting.service';
 
 @Component({
   selector: 'app-betting',
@@ -10,124 +11,57 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './betting.component.scss',
 })
 export class BettingComponent {
-  betVariants = [
-    0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 1.2, 2.0, 4.0, 10.0, 20.0, 50.0,
-    100.0,
-  ];
+  readonly betVariants: number[];
+  readonly currentBet;
+  readonly showKeypad;
+  readonly showVariants;
+  readonly isGameEnabled;
+  readonly inputValue;
 
-  currentBet = signal(0.1);
-  showKeypad = signal(false);
-  showVariants = signal(false);
-  isGameEnabled = signal(true);
-  inputValue = '0.10';
+  constructor(private bettingService: BettingService) {
+    this.betVariants = this.bettingService.getBetVariants();
+    this.currentBet = this.bettingService.getCurrentBet();
+    this.showKeypad = this.bettingService.getShowKeypad();
+    this.showVariants = this.bettingService.getShowVariants();
+    this.isGameEnabled = this.bettingService.getIsGameEnabled();
+    this.inputValue = this.bettingService.getInputValue();
+  }
 
-  ngOnInit() {
-    this.inputValue = this.currentBet().toFixed(2);
+  setShowKeypad(value: boolean) {
+    this.bettingService.setShowKeypad(value);
   }
 
   onInputFocus() {
-    if (this.inputValue) {
-      this.inputValue = '';
-    }
+    this.bettingService.onInputFocus();
   }
 
   @HostListener('document:click', ['$event'])
   onMouseClick(event: MouseEvent) {
-    const element = event.target as HTMLElement;
-    if (!element.closest('.bet-container')) {
-      this.showKeypad.set(false);
-      this.showVariants.set(false);
-
-      this.inputValue = this.clampInputValue(this.inputValue);
-    }
+    this.bettingService.handleDocumentClick(event.target as HTMLElement);
   }
 
   @HostListener('document:keydown', ['$event'])
   onKeyboardClick(event: KeyboardEvent) {
-    if (!this.isGameEnabled()) return;
-
-    if (/^\d$/.test(event.key)) {
-      this.handleKeypadInput(event.key);
-      return;
-    }
-
-    switch (event.key) {
-      case 'Backspace':
-        this.handleKeypadInput('←');
-        break;
-      case 'Escape':
-        this.showKeypad.set(false);
-        this.showVariants.set(false);
-        break;
-      case 'Enter':
-        this.confirmInput();
-        break;
-    }
+    this.bettingService.handleKeyboardInput(event);
   }
 
   handleKeypadInput(value: string) {
-    if (!this.isGameEnabled()) return;
-
-    if (value === '←') {
-      this.inputValue = this.inputValue.slice(0, -1);
-      if (this.inputValue === '') this.inputValue = '0';
-      return;
-    }
-
-    this.inputValue += value;
+    this.bettingService.handleKeypadInput(value);
   }
 
   confirmInput() {
-    this.inputValue = this.clampInputValue(this.inputValue);
-
-    const numValue = parseFloat(this.inputValue);
-    if (this.isValidInput(this.inputValue)) {
-      this.currentBet.set(numValue);
-      this.showKeypad.set(false);
-    }
+    this.bettingService.confirmInput();
   }
 
   selectBetVariant(value: number) {
-    if (!this.isGameEnabled()) return;
-
-    this.currentBet.set(value);
-    this.inputValue = value.toFixed(2);
-    this.showVariants.set(false);
+    this.bettingService.selectBetVariant(value);
   }
 
   adjustBet(isIncrease: boolean) {
-    const currentValue = this.currentBet();
-    const currentIndex = this.betVariants.indexOf(currentValue);
-
-    let newIndex;
-    if (isIncrease) {
-      newIndex =
-        currentIndex < this.betVariants.length - 1
-          ? currentIndex + 1
-          : currentIndex;
-    } else {
-      newIndex = currentIndex > 0 ? currentIndex - 1 : currentIndex;
-    }
-
-    const newValue = this.betVariants[newIndex];
-    this.currentBet.set(newValue);
-    this.inputValue = newValue.toFixed(2);
+    this.bettingService.adjustBet(isIncrease);
   }
 
-  private isValidInput(value: string): boolean {
-    if (!value) return false;
-
-    const numValue = parseFloat(value);
-    return !isNaN(numValue) && numValue >= 0.1 && numValue <= 100;
-  }
-
-  private clampInputValue(value: string): string {
-    const numValue = parseFloat(value);
-    if (isNaN(numValue)) return '0.10';
-
-    if (numValue < 0.1) return '0.10';
-    if (numValue > 100) return '100.00';
-
-    return numValue.toFixed(2);
+  toggleShowVariants() {
+    this.bettingService.toggleShowVariants();
   }
 }
