@@ -1,28 +1,7 @@
 <div>
   <app-betting />
-  <button class="auto-game">
+  <button class="auto-game" (click)="autoPlayService.toggleAutoPlay()">
     <i class="fa-solid fa-repeat"></i>
   </button>
   <app-play-button />
-
-  <!-- <div class="game-controls">
-    <button
-      class="auto-game"
-      (click)="toggleAutoGame()"
-      [disabled]="!isGameEnabled()"
-    >
-    </button>
-    <label class="auto-game-switch">
-      <input
-        type="checkbox"
-        [ngModel]="isAutoGame()"
-        (ngModelChange)="setAutoGame($event)"
-        [disabled]="!isGameEnabled()"
-      />
-      <span>Auto Game</span>
-    </label>
-  </div> -->
-
-  <!-- AutoPlay -->
-  <!-- {{ autoPlay.isPlaying() ? "STOP" : "RANDOM" }} -->
 </div>
