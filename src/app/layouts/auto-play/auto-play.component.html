@@ -1,0 +1,55 @@
+<div class="auto-play-modal" [class.visible]="isVisible">
+  <div class="modal-header">
+    <h2>AUTO PLAY</h2>
+    <button class="close-button" (click)="close()">✕</button>
+  </div>
+
+  <div class="modal-content">
+    <h3>Number of rounds</h3>
+
+    <div class="rounds-grid">
+      @for (option of roundOptions; track option.value) {
+      <button
+        class="round-button"
+        [class.selected]="option.selected"
+        (click)="selectRound(option)"
+      >
+        {{ option.value }}
+      </button>
+      }
+    </div>
+
+    <div class="stop-conditions">
+      <div class="condition">
+        <label class="switch">
+          <input type="checkbox" [(ngModel)]="stopOnDecrease.enabled" />
+          <span class="slider"></span>
+        </label>
+        <span class="condition-label">Stop if cash decreases by</span>
+        <div class="number-input">
+          <button
+            (click)="decrementValue(stopOnDecrease)"
+            [disabled]="!stopOnDecrease.enabled"
+          >
+            -
+          </button>
+          <input
+            type="number"
+            [(ngModel)]="stopOnDecrease.value"
+            [disabled]="!stopOnDecrease.enabled"
+            min="0"
+            step="0.01"
+          />
+          <button
+            (click)="incrementValue(stopOnDecrease)"
+            [disabled]="!stopOnDecrease.enabled"
+          >
+            +
+          </button>
+        </div>
+      </div>
+
+      <button class="start-button" (click)="startAuto()">START AUTO</button>
+    </div>
+  </div>
+</div>

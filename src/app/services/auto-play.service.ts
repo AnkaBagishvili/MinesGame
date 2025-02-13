@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { GameServiceService } from './game-service.service';
 import { ProgressBarService } from './progress-bar.service';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -24,7 +25,7 @@ export class AutoPlayService {
         this.stopAutoPlay();
         return;
       }
-      this.gameService.randomReveal(true);
+      this.gameService.randomReveal();
       this.progressBarService.calculateProgress();
     }, intervalMs);
   }

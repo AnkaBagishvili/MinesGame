@@ -14,9 +14,6 @@ export class BettingService {
   private _currentBet = new BehaviorSubject<number>(0.1);
   currentBet$ = this._currentBet.asObservable();
 
-  private _currentMultiplier = new BehaviorSubject<number>(1);
-  currentMultiplier$ = this._currentMultiplier.asObservable();
-
   private showKeypad = new BehaviorSubject<boolean>(false);
   private showVariants = new BehaviorSubject<boolean>(false);
   private isGameEnabled = new BehaviorSubject<boolean>(true);

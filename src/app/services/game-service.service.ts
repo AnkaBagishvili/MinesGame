@@ -90,12 +90,6 @@ export class GameServiceService {
   }
 
   //Randomizer
-  private getUnrevealedSafeBoxes(): number[] {
-    return this.boxes
-      .map((box, index) => ({ box, index }))
-      .filter(({ box }) => !box.isRevealed && !box.isBomb)
-      .map(({ index }) => index);
-  }
 
   private getUnrevealedBoxes(): number[] {
     return this.boxes
@@ -104,18 +98,12 @@ export class GameServiceService {
       .map(({ index }) => index);
   }
 
-  randomReveal(preferSafe: boolean = true) {
+  randomReveal() {
     if (this.gameOver) {
       return;
     }
 
-    let availableBoxes = preferSafe
-      ? this.getUnrevealedSafeBoxes()
-      : this.getUnrevealedBoxes();
-
-    if (availableBoxes.length === 0 && !this.gameOver && preferSafe) {
-      availableBoxes = this.getUnrevealedBoxes();
-    }
+    const availableBoxes = this.getUnrevealedBoxes();
 
     if (availableBoxes.length === 0) {
       return;
@@ -127,11 +115,7 @@ export class GameServiceService {
     this.revealBox(boxToReveal);
   }
 
-  autoReveal(
-    count: number = 1,
-    intervalMs: number = 100,
-    preferSafe: boolean = true
-  ) {
+  autoReveal(count: number = 1, intervalMs: number = 100) {
     if (this.gameOver || count <= 0) {
       return;
     }
@@ -143,7 +127,7 @@ export class GameServiceService {
         return;
       }
 
-      this.randomReveal(preferSafe);
+      this.randomReveal();
       revealed++;
     }, intervalMs);
 

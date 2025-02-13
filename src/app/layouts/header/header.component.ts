@@ -39,8 +39,4 @@ export class HeaderComponent {
   placeBet(amount: number) {
     this.balanceService.updateBalance(-amount);
   }
-
-  addWin(amount: number) {
-    this.balanceService.updateBalance(amount);
-  }
 }
