@@ -1,14 +1,14 @@
 .modal-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
+  top: 50%;
+  left: 50%;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.7);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
+  transform: translate(-67%, -50%)  
 }
 
 .modal-content {
@@ -17,6 +17,7 @@
   width: 90%;
   max-width: 400px;
   color: white;
+  
 }
 
 .modal-header {
@@ -28,11 +29,12 @@
 }
 
 .close-button {
-  background: none;
+  background: darkgray;
   border: none;
   color: white;
-  font-size: 24px;
+  font-size: 15px;
   cursor: pointer;
+  border-radius: 20px;
 }
 
 .modal-body {
@@ -49,22 +51,12 @@
   gap: 10px;
 }
 
-.star-icon {
-  color: #00b3ff;
-}
-
-.grid-container {
-  display: flex;
-  justify-content: center;
-  margin: 20px 0;
-}
-
-.mines-grid {
+.grid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 5px;
-  width: 200px;
-  height: 200px;
+  grid-template-columns: repeat(5, 12%);
+  gap: 3px;
+  margin: 10px 0;
+  justify-content: center;
 }
 
 .grid-cell {
@@ -84,3 +76,28 @@
   font-size: 14px;
   line-height: 1.5;
 }
+
+
+.tile {
+  width: 40px;
+  height: 40px;
+  background: white;
+  border-radius: 5px;
+  box-shadow: black ;
+}
+.star {
+  background: gold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.mine {
+  background: red;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+

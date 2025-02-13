@@ -1,26 +1,64 @@
 <div *ngIf="isVisible" class="modal-overlay" (click)="onOverlayClick($event)">
-  <div class="modal-content">
+  <div class="modal-content" (click)="$event.stopPropagation()">
     <div class="modal-header">
       <h2>HOW TO PLAY</h2>
-      <button (click)="close()">X</button>
+      <button class="close-button" (click)="close()">X</button>
     </div>
     <div class="modal-body">
       <div class="mines-title">
-        <span class="star-icon">⭐</span>
+        <span >💣</span>
         MINES
       </div>
-      <img src="public/howToPlay.png" />
-      <!-- <div class="grid-container">
-        <div class="mines-grid">
-          <div *ngFor="let i of [0, 1, 2, 3, 4]">
-            <div
-              *ngFor="let j of [0, 1, 2, 3, 4]"
-              class="grid-cell"
-              [class.star]="isStar(i, j)"
-            ></div>
+      <div class="grid">
+        <div class="tile star">
+        <span class="star-icon">⭐</span>
+        </div>
+        <div class="tile"></div>
+        <div class="tile mine">
+          <span class="bomb-icon">💣</span>
+        </div>
+        <div class="tile"></div>
+        <div class="tile"></div>
+  
+        <div class="tile"></div>
+        <div class="tile star">
+          <span class="star-icon">⭐</span>
+          </div>
+        <div class="tile"></div>
+        <div class="tile"></div>
+        <div class="tile">
+          <div class="tile mine">
+            <span class="bomb-icon">💣</span>
           </div>
         </div>
-      </div> -->
+  
+        <div class="tile"></div>
+        <div class="tile"></div>
+        <div class="tile star">
+          <span class="star-icon">⭐</span>
+          </div>
+        <div class="tile"></div>
+        <div class="tile"></div>
+  
+        <div class="tile"></div>
+        <div class="tile mine">
+          <span class="bomb-icon">💣</span>
+        </div>
+        <div class="tile"></div>
+        <div class="tile star">
+          <span class="star-icon">⭐</span>
+          </div>
+        <div class="tile"></div>
+  
+        <div class="tile"></div>
+        <div class="tile"></div>
+        <div class="tile"></div>
+        <div class="tile"></div>
+          <div class="tile star">
+            <span class="star-icon">⭐</span>
+            </div>
+      </div>
+  
       <div class="instructions">
         <p>Each tile hides either a star or a mine.</p>
         <p>

@@ -4,7 +4,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 @Component({
   selector: 'app-how-to-play',
   standalone: true,
-  imports: [NgFor, NgIf],
+  imports: [NgIf],
   templateUrl: './how-to-play.component.html',
   styleUrl: './how-to-play.component.scss',
 })
@@ -23,7 +23,7 @@ export class HowToPlayComponent {
   }
 
   isStar(i: number, j: number): boolean {
-    // Positions
+  
     const starPositions = [
       { x: 1, y: 1 },
       { x: 2, y: 3 },

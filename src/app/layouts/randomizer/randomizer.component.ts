@@ -8,7 +8,7 @@ import { AutoPlayService } from '../../services/auto-play.service';
   selector: 'app-randomizer',
   standalone: true,
   imports: [FormsModule],
-  templateUrl: './randomizer.component.html',
+  templateUrl:'./randomizer.component.html',
   styleUrl: './randomizer.component.scss',
 })
 export class RandomizerComponent {
