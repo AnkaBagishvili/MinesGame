@@ -49,9 +49,10 @@ export class AutoPlayComponent implements OnDestroy {
       condition.value = +(condition.value - 0.01).toFixed(2);
     }
   }
-
+  
   close() {
     this.isVisible = false;
+
   }
 
   show() {
@@ -128,7 +129,6 @@ export class AutoPlayComponent implements OnDestroy {
             if (this.bettingService.placeBet()) {
               this.currentRound++;
               this.isWaitingForNextRound = false;
-              // Start the auto-play for this round
               this.autoPlayService.startAutoPlay(500);
               console.log('Next round started successfully');
             } else {
