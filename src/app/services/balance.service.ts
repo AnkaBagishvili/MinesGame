@@ -15,4 +15,5 @@ export class BalanceService {
   updateBalance(amount: number) {
     this._balance.next(this._balance.value + amount);
   }
+
 }
