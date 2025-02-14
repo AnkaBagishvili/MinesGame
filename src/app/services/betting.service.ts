@@ -11,13 +11,13 @@ export class BettingService {
     100.0,
   ];
 
-  private _currentBet = new BehaviorSubject<number>(0.1);
+  public _currentBet = new BehaviorSubject<number>(0.1);
   currentBet$ = this._currentBet.asObservable();
 
   private showKeypad = new BehaviorSubject<boolean>(false);
   private showVariants = new BehaviorSubject<boolean>(false);
   private isGameEnabled = new BehaviorSubject<boolean>(true);
-  private inputValue = new BehaviorSubject<string>('0.10');
+  public inputValue = new BehaviorSubject<string>('0.10');
 
   constructor(private balanceService: BalanceService) {
     this.inputValue.next(this._currentBet.value.toFixed(2));
@@ -178,18 +178,16 @@ export class BettingService {
     return numValue.toFixed(2);
   }
 
-  private playgroundReset = new BehaviorSubject<boolean>(false); // Track if reset is needed
-  playgroundReset$ = this.playgroundReset.asObservable(); // Expose as observable to notify other components
+  private playgroundReset = new BehaviorSubject<boolean>(false);
+  playgroundReset$ = this.playgroundReset.asObservable();
 
-  // Reset the playground (disable it and hide stars)
   resetPlayground() {
-    this.playgroundReset.next(true); // Notify that reset is required
-    this.resetBettingState(); // Optionally reset betting state
+    this.playgroundReset.next(true);
+    this.resetBettingState();
   }
 
-  // Reset the betting state (if needed)
   resetBettingState() {
-    this._currentBet.next(0.1); // Reset bet to initial value
-    this.inputValue.next('0.10'); // Reset the input value
+    this._currentBet.next(0.1);
+    this.inputValue.next('0.10');
   }
 }

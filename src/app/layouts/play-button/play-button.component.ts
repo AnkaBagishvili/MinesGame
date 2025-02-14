@@ -43,17 +43,17 @@ export class PlayButtonComponent {
     }
   }
 
-  //new
   onCashOut() {
-    console.log('onCashOut triggered');
     this.isGameStarted.next(false);
+
     const progress = this.progressBarService.calculateProgress();
     const winnings = progress * this.bettingService.currentBet;
-    this.balanceService.updateBalance(winnings);
 
+    this.balanceService.updateBalance(winnings); // Update balance
     this.winnings$.next(winnings);
 
     this.gameState.onCashOut();
+    this.gameState.resetPlayground();
 
     console.log('Winnings:', winnings);
   }

@@ -2,7 +2,7 @@ import { Component, OnDestroy } from '@angular/core';
 import { RaundOptions } from '../../interfaces/raund-options';
 import { AutoPlayService } from '../../services/auto-play.service';
 import { GameServiceService } from '../../services/game-service.service';
-import { FormsModule} from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { BettingService } from '../../services/betting.service';
 import { BalanceService } from '../../services/balance.service';
 import { GameStateService } from '../../services/game-state.service';
@@ -50,10 +50,9 @@ export class AutoPlayComponent implements OnDestroy {
       condition.value = +(condition.value - 0.01).toFixed(2);
     }
   }
-  
+
   close() {
     this.isVisible = false;
-
   }
 
   show() {
@@ -69,13 +68,14 @@ export class AutoPlayComponent implements OnDestroy {
     private gameService: GameServiceService,
     private bettingService: BettingService,
     private balanceService: BalanceService,
-    public gameState:GameStateService
+    public gameState: GameStateService
   ) {}
 
   ngOnDestroy() {
     this.stopAutoPlay();
   }
 
+  autoPlayAllowed: boolean = false;
   startAuto() {
     const selectedRounds = this.roundOptions.find(
       (option) => option.selected
@@ -94,6 +94,8 @@ export class AutoPlayComponent implements OnDestroy {
       this.monitorAutoPlay();
       this.close();
     }
+
+    this.gameState.autoPlayAllowed.next(false);
   }
 
   private monitorAutoPlay() {

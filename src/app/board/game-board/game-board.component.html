@@ -1,5 +1,8 @@
 <div class="background">
   <app-progress />
-  <app-play-ground  [ngClass]="{ 'disabled': (gameState.playgroundDisabled$ | async) }"/>
+  <app-play-ground
+    [ngClass]="{ disabled: (gameState.playgroundDisabled$ | async) }"
+  />
   <app-randomizer />
 </div>
+<!-- Style for ngClass opacity -->

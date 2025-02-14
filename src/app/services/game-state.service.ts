@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { GameServiceService } from './game-service.service';
+import { BalanceService } from './balance.service';
+import { BettingService } from './betting.service';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +13,7 @@ export class GameStateService {
   private autoPlayDisabled = new BehaviorSubject<boolean>(true);
   private randomizerDisabled = new BehaviorSubject<boolean>(false);
   private playButtonDisabled = new BehaviorSubject<boolean>(false);
-  private autoPlayAllowed = new BehaviorSubject<boolean>(false);
+  public autoPlayAllowed = new BehaviorSubject<boolean>(false);
   private randomButtonDisabled = new BehaviorSubject<boolean>(true);
 
   playgroundDisabled$ = this.playgroundDisabled.asObservable();
@@ -25,6 +28,7 @@ export class GameStateService {
     this.playgroundDisabled.next(false);
     this.bettingDisabled.next(true);
     this.playButtonDisabled.next(false);
+    this.randomButtonDisabled.next(false); // Enable the random button
   }
 
   enableAutoPlay() {
@@ -39,6 +43,7 @@ export class GameStateService {
   }
 
   startAutoPlay() {
+    this.autoPlayAllowed.next(false);
     this.playgroundDisabled.next(true);
     this.bettingDisabled.next(true);
     this.autoPlayDisabled.next(true);
@@ -50,7 +55,46 @@ export class GameStateService {
     this.playgroundDisabled.next(true);
     this.bettingDisabled.next(false);
   }
+
+  private revealedStarsSubject = new BehaviorSubject<number>(0);
+  revealedStars$ = this.revealedStarsSubject.asObservable();
+
+  private playgroundReset = new BehaviorSubject<boolean>(false);
+  playgroundReset$ = this.playgroundReset.asObservable();
+
+  constructor(
+    private gameService: GameServiceService,
+    private bettinService: BettingService
+  ) {}
+
+  resetRevealedStars() {
+    this.gameService.boxes.forEach((box) => {
+      box.isRevealed = false;
+    });
+    this.revealedStarsSubject.next(0);
+  }
+
+  increaseRevealedStars() {
+    const revealedStars = this.gameService.boxes.filter(
+      (box) => box.isRevealed && box.isStar
+    ).length;
+    this.revealedStarsSubject.next(revealedStars);
+  }
+
+  resetPlayground() {
+    this.playgroundReset.next(true);
+    this.resetBettingState();
+  }
+
+  resetBettingState() {
+    this.bettinService._currentBet.next(0.1);
+    this.bettinService.inputValue.next('0.10');
+  }
+
   onCashOut() {
+    this.resetRevealedStars();
+    this.resetPlayground();
     this.enableBettingAfterCashOut();
+    this.randomButtonDisabled.next(true);
   }
 }

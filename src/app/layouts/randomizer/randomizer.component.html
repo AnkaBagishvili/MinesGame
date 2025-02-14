@@ -1,13 +1,22 @@
 <div class="randomizer">
-  <button class="random_btn" (click)="onRandomClick()" 
-  [ngClass]="{ 'disabled': (gameState.randomButtonDisabled$ | async) }">RANDOM</button>
+  <button
+    class="random_btn"
+    (click)="onRandomClick()"
+    [ngClass]="{ disabled: (gameState.randomButtonDisabled$ | async) }"
+  >
+    RANDOM
+  </button>
 
-  <div class="autogame" >
+  <div class="autogame">
     <i class="fa-solid fa-repeat"></i>
 
     <div class="settings-item">
       <label class="switch">
-        <input type="checkbox" (change)="onAutoPlayCheckboxChange($event)" [checked]="gameState.autoPlayAllowed$ | async" />
+        <input
+          type="checkbox"
+          (change)="onAutoPlayCheckboxChange($event)"
+          [checked]="gameState.autoPlayAllowed$ | async"
+        />
         <span class="slider"></span>
       </label>
       <span>Auto Game</span>

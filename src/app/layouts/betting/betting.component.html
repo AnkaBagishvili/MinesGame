@@ -1,4 +1,7 @@
-<div class="bet-container" [ngClass]="{ 'disabled': (gameState.bettingDisabled$ | async) }">
+<div
+  class="bet-container"
+  [ngClass]="{ disabled: (gameState.bettingDisabled$ | async) }"
+>
   <div class="div" class="bet-place">
     <p class="bet-label">Bet USD</p>
 
