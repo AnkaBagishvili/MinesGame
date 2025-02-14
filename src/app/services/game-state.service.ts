@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { GameServiceService } from './game-service.service';
-import { BalanceService } from './balance.service';
 import { BettingService } from './betting.service';
 
 @Injectable({
@@ -9,7 +8,7 @@ import { BettingService } from './betting.service';
 })
 export class GameStateService {
   private playgroundDisabled = new BehaviorSubject<boolean>(true);
-  private bettingDisabled = new BehaviorSubject<boolean>(false);
+  public bettingDisabled = new BehaviorSubject<boolean>(false);
   private autoPlayDisabled = new BehaviorSubject<boolean>(true);
   private randomizerDisabled = new BehaviorSubject<boolean>(false);
   private playButtonDisabled = new BehaviorSubject<boolean>(false);
@@ -28,7 +27,7 @@ export class GameStateService {
     this.playgroundDisabled.next(false);
     this.bettingDisabled.next(true);
     this.playButtonDisabled.next(false);
-    this.randomButtonDisabled.next(false); // Enable the random button
+    this.randomButtonDisabled.next(false);
   }
 
   enableAutoPlay() {
@@ -55,7 +54,9 @@ export class GameStateService {
     this.playgroundDisabled.next(true);
     this.bettingDisabled.next(false);
   }
-
+  reEnableBetting() {
+    this.bettingDisabled.next(false);
+  }
   private revealedStarsSubject = new BehaviorSubject<number>(0);
   revealedStars$ = this.revealedStarsSubject.asObservable();
 

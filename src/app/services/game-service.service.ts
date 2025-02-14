@@ -1,7 +1,5 @@
-import { inject, Injectable, signal } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { Box } from '../interfaces/box';
-import { Subject } from 'rxjs';
-import { ProgressBarService } from './progress-bar.service';
 
 @Injectable({
   providedIn: 'root',

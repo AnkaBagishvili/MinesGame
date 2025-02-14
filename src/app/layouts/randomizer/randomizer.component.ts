@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { GameServiceService } from '../../services/game-service.service';
 import { ProgressBarService } from '../../services/progress-bar.service';
 import { FormsModule } from '@angular/forms';

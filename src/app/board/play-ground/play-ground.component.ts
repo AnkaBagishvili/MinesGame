@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Box } from '../../interfaces/box';
-import { AsyncPipe, NgFor, NgIf, NgStyle } from '@angular/common';
+import { NgFor, NgIf, NgStyle } from '@angular/common';
 import { GameServiceService } from '../../services/game-service.service';
 import { ProgressBarService } from '../../services/progress-bar.service';
 import { GameStateService } from '../../services/game-state.service';
@@ -29,7 +29,6 @@ export class PlayGroundComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.gameService.initializeGame();
 
-    // Subscribe to reset event
     this.resetSubscription = this.gameStateService.playgroundReset$.subscribe(
       (reset) => {
         if (reset) {
@@ -52,7 +51,6 @@ export class PlayGroundComponent implements OnInit, OnDestroy {
   }
 
   private resetPlayground() {
-    // Reset game state
     this.gameService.initializeGame();
     this.progressBarService.calculateProgress();
   }

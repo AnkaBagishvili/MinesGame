@@ -8,8 +8,14 @@ import { AsyncPipe, NgClass } from '@angular/common';
 @Component({
   selector: 'app-game-board',
   standalone: true,
-  imports: [PlayGroundComponent, ProgressComponent, RandomizerComponent,AsyncPipe,NgClass],
- templateUrl: './game-board.component.html',
+  imports: [
+    PlayGroundComponent,
+    ProgressComponent,
+    RandomizerComponent,
+    AsyncPipe,
+    NgClass,
+  ],
+  templateUrl: './game-board.component.html',
   styleUrl: './game-board.component.scss',
 })
 export class GameBoardComponent {

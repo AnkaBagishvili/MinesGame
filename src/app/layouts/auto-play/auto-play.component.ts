@@ -96,6 +96,7 @@ export class AutoPlayComponent implements OnDestroy {
     }
 
     this.gameState.autoPlayAllowed.next(false);
+    this.gameState.bettingDisabled.next(true);
   }
 
   private monitorAutoPlay() {
@@ -175,5 +176,6 @@ export class AutoPlayComponent implements OnDestroy {
     }
 
     this.isWaitingForNextRound = false;
+    this.gameState.reEnableBetting();
   }
 }
