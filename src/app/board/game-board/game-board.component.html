@@ -1,5 +1,5 @@
 <div class="background">
   <app-progress />
-  <app-play-ground />
+  <app-play-ground  [ngClass]="{ 'disabled': (gameState.playgroundDisabled$ | async) }"/>
   <app-randomizer />
 </div>

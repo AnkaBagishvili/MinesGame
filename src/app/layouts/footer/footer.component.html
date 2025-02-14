@@ -1,8 +1,10 @@
 <div>
   <app-betting />
-  <button class="auto-game" (click)="showAutoPlay()">
-    <i class="fa-solid fa-repeat"></i>
-  </button>
+  <button class="auto-game" 
+  (click)="enableAutoPlay()" 
+  [ngClass]="{ 'disabled': !(gameState.autoPlayAllowed$ | async) }">
+  <i class="fa-solid fa-repeat"></i>
+</button>
   <app-auto-play></app-auto-play>
   <app-play-button />
 </div>

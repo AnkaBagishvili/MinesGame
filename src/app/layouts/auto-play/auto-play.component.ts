@@ -2,9 +2,10 @@ import { Component, OnDestroy } from '@angular/core';
 import { RaundOptions } from '../../interfaces/raund-options';
 import { AutoPlayService } from '../../services/auto-play.service';
 import { GameServiceService } from '../../services/game-service.service';
-import { FormsModule, NgModel } from '@angular/forms';
+import { FormsModule} from '@angular/forms';
 import { BettingService } from '../../services/betting.service';
 import { BalanceService } from '../../services/balance.service';
+import { GameStateService } from '../../services/game-state.service';
 
 @Component({
   selector: 'app-auto-play',
@@ -67,7 +68,8 @@ export class AutoPlayComponent implements OnDestroy {
     private autoPlayService: AutoPlayService,
     private gameService: GameServiceService,
     private bettingService: BettingService,
-    private balanceService: BalanceService
+    private balanceService: BalanceService,
+    public gameState:GameStateService
   ) {}
 
   ngOnDestroy() {

@@ -2,24 +2,34 @@ import { Component } from '@angular/core';
 import { GameServiceService } from '../../services/game-service.service';
 import { ProgressBarService } from '../../services/progress-bar.service';
 import { FormsModule } from '@angular/forms';
-import { AutoPlayService } from '../../services/auto-play.service';
+import { AsyncPipe, NgClass } from '@angular/common';
+import { GameStateService } from '../../services/game-state.service';
 
 @Component({
   selector: 'app-randomizer',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule,AsyncPipe,NgClass,AsyncPipe
+  ],
   templateUrl:'./randomizer.component.html',
   styleUrl: './randomizer.component.scss',
 })
 export class RandomizerComponent {
   constructor(
     private gameService: GameServiceService,
-    private progressBarService: ProgressBarService
+    private progressBarService: ProgressBarService,
+    public gameState:GameStateService,
   ) {}
 
+  enableAutoPlay() {
+    this.gameState.enableAutoPlay();
+  }
   onRandomClick() {
     this.gameService.randomReveal();
 
     this.progressBarService.calculateProgress();
+  }
+  onAutoPlayCheckboxChange(event: Event) {
+    const isChecked = (event.target as HTMLInputElement).checked;
+    this.gameState.toggleAutoPlayAllowed(isChecked);
   }
 }

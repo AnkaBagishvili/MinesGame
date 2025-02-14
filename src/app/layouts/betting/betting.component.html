@@ -1,10 +1,9 @@
-<div class="bet-container">
+<div class="bet-container" [ngClass]="{ 'disabled': (gameState.bettingDisabled$ | async) }">
   <div class="div" class="bet-place">
     <p class="bet-label">Bet USD</p>
 
     <input
       [value]="inputValue.value"
-      [disabled]="!isGameEnabled.value"
       (click)="setShowKeypad(true)"
       (focus)="onInputFocus()"
       class="bet-input"
