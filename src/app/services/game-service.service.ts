@@ -47,7 +47,6 @@ export class GameServiceService {
     }
   }
 
-
   revealBox(index: number) {
     if (this.gameOver || this.boxes[index].isRevealed) {
       return;

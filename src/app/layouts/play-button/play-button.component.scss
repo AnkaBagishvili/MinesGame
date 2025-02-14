@@ -13,9 +13,28 @@
   border-radius: 20px;
   cursor: pointer;
   color: white;
+  font-size: 16px;
+  margin: 10px;
+  transition: all 0.3s ease;
 }
 
-.cash-out{
+@media (max-width: 768px) {
+  .bet-button {
+    width: 200px;
+    height: 45px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .bet-button {
+    width: 180px;
+    height: 40px;
+    font-size: 12px;
+  }
+}
+
+.cash-out {
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
   background-image: radial-gradient(circle at 50% 50%, #ed8c05, #d23707 94%);
   box-shadow: 3px 3px 6px #020b1a80, inset -1px -1px #00000052,
@@ -23,9 +42,38 @@
   border: 2px solid rgba(0, 0, 0, 0.9);
   border-radius: 20px;
   cursor: pointer;
-  color: white; 
+  color: white;
+  font-size: 16px;
+  margin: 10px;
+  transition: all 0.3s ease;
 }
 
-// .bet-button:hover{
+@media (max-width: 768px) {
+  .cash-out {
+    width: 200px;
+    height: 45px;
+    font-size: 14px;
+  }
+}
 
-// }
+@media (max-width: 480px) {
+  .cash-out {
+    width: 180px;
+    height: 40px;
+    font-size: 12px;
+  }
+}
+
+.bet-button:hover {
+  background-image: radial-gradient(circle at 50% 50%, #4b8c00, #276700 94%);
+  box-shadow: 3px 3px 6px #020b1a80, inset -1px -1px #00000052,
+    inset 1px 1px #fff1cd33;
+  transform: translateY(-2px);
+}
+
+.cash-out:hover {
+  background-image: radial-gradient(circle at 50% 50%, #d15f02, #a21d06 94%);
+  box-shadow: 3px 3px 6px #020b1a80, inset -1px -1px #00000052,
+    inset 1px 1px #fff1cd33;
+  transform: translateY(-2px);
+}

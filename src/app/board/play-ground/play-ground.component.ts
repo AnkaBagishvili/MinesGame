@@ -16,14 +16,6 @@ export class PlayGroundComponent implements OnInit, OnDestroy {
     return this.gameService.boxes;
   }
 
-  get gameOver(): boolean {
-    return this.gameService.gameOver;
-  }
-
-  get restartCountdown(): number {
-    return this.gameService.restartCountdown;
-  }
-
   constructor(
     private gameService: GameServiceService,
     private progressBarService: ProgressBarService

@@ -1,13 +1,24 @@
-<div class="div" (click)="enablePlayground()" [ngClass]="{ 'disabled': (gameState.playButtonDisabled$ | async) }">
-<button class="bet-button cash-out" *ngIf="isGameStarted | async; else betButton" (click)="onCashOut()">
-  Cash Out
-  {{ winnings$ | async | currency : "USD" : "symbol" }}
-
-</button>
-
-<ng-template #betButton>
-  <button class="bet-button place-bet" (click)="onPlaceBet()">
-    <i class="fa-solid fa-play"></i> Bet
+<div
+  class="div"
+  [ngClass]="{ disabled: (gameState.playButtonDisabled$ | async) }"
+>
+  <button
+    class="bet-button cash-out"
+    *ngIf="isGameStarted | async; else betButton"
+    (click)="onCashOut()"
+    [disabled]="gameState.playgroundDisabled$ | async"
+  >
+    Cash Out
+    {{ winnings$ | async | currency : "USD" : "symbol" }}
   </button>
-</ng-template>
+
+  <ng-template #betButton>
+    <button
+      class="bet-button place-bet"
+      (click)="onPlaceBet()"
+      [disabled]="gameState.bettingDisabled$ | async"
+    >
+      <i class="fa-solid fa-play"></i> Bet
+    </button>
+  </ng-template>
 </div>

@@ -2,16 +2,16 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class GameStateService {
   private playgroundDisabled = new BehaviorSubject<boolean>(true);
   private bettingDisabled = new BehaviorSubject<boolean>(false);
-  private autoPlayDisabled = new BehaviorSubject<boolean>(true); 
+  private autoPlayDisabled = new BehaviorSubject<boolean>(true);
   private randomizerDisabled = new BehaviorSubject<boolean>(false);
   private playButtonDisabled = new BehaviorSubject<boolean>(false);
-  private autoPlayAllowed = new BehaviorSubject<boolean>(false); 
-  private randomButtonDisabled = new BehaviorSubject<boolean>(true); 
+  private autoPlayAllowed = new BehaviorSubject<boolean>(false);
+  private randomButtonDisabled = new BehaviorSubject<boolean>(true);
 
   playgroundDisabled$ = this.playgroundDisabled.asObservable();
   bettingDisabled$ = this.bettingDisabled.asObservable();
@@ -19,19 +19,16 @@ export class GameStateService {
   randomizerDisabled$ = this.randomizerDisabled.asObservable();
   playButtonDisabled$ = this.playButtonDisabled.asObservable();
   autoPlayAllowed$ = this.autoPlayAllowed.asObservable();
-randomButtonDisabled$ = this.randomButtonDisabled.asObservable();
-
+  randomButtonDisabled$ = this.randomButtonDisabled.asObservable();
 
   enablePlayground() {
     this.playgroundDisabled.next(false);
     this.bettingDisabled.next(true);
-    this.randomizerDisabled.next(true);
-    this.randomButtonDisabled.next(false);
-    this.autoPlayDisabled.next(true);
+    this.playButtonDisabled.next(false);
   }
 
   enableAutoPlay() {
-    if (this.autoPlayAllowed.getValue()) { 
+    if (this.autoPlayAllowed.getValue()) {
       this.autoPlayDisabled.next(false);
       this.playButtonDisabled.next(true);
     }
@@ -46,12 +43,14 @@ randomButtonDisabled$ = this.randomButtonDisabled.asObservable();
     this.bettingDisabled.next(true);
     this.autoPlayDisabled.next(true);
     this.playButtonDisabled.next(true);
-    this.randomizerDisabled.next(false); // Only .autogame remains enabled
+    this.randomizerDisabled.next(false);
     this.randomButtonDisabled.next(true);
   }
-
-
+  enableBettingAfterCashOut() {
+    this.playgroundDisabled.next(true);
+    this.bettingDisabled.next(false);
+  }
   onCashOut() {
-    this.bettingDisabled.next(false); // Enable Betting after Cash Out
+    this.enableBettingAfterCashOut();
   }
 }

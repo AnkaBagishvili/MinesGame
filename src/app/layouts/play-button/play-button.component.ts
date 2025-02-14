@@ -10,52 +10,51 @@ import { GameStateService } from '../../services/game-state.service';
 @Component({
   selector: 'app-play-button',
   standalone: true,
-  imports: [NgIf,AsyncPipe,CurrencyPipe,NgClass],
-  templateUrl:'./play-button.component.html',
+  imports: [NgIf, AsyncPipe, CurrencyPipe, NgClass],
+  templateUrl: './play-button.component.html',
   styleUrl: './play-button.component.scss',
 })
 export class PlayButtonComponent {
   isGameStarted = new BehaviorSubject<boolean>(false);
-  balance:number=0;
-  winnings$ = new BehaviorSubject<number>(0)
+  balance: number = 0;
+  winnings$ = new BehaviorSubject<number>(0);
 
-  constructor(private bettingService: BettingService,
-    private balanceService:BalanceService,
-    private progressBarService:ProgressBarService,
-    private gameService:GameServiceService,
-    public gameState:GameStateService
-  ) {this.balanceService.balance$.subscribe((balance) => {
-    this.balance = balance;
-  });}
+  constructor(
+    private bettingService: BettingService,
+    private balanceService: BalanceService,
+    private progressBarService: ProgressBarService,
+    private gameService: GameServiceService,
+    public gameState: GameStateService
+  ) {
+    this.balanceService.balance$.subscribe((balance) => {
+      this.balance = balance;
+    });
+  }
   enablePlayground() {
     this.gameState.enablePlayground();
-  } 
+  }
 
   onPlaceBet() {
-    const success = this.bettingService.placeBet(); 
+    const success = this.bettingService.placeBet();
 
     if (success) {
-      this.isGameStarted.next(true); 
+      this.isGameStarted.next(true);
       this.gameState.enablePlayground();
     }
   }
 
   //new
   onCashOut() {
+    console.log('onCashOut triggered');
     this.isGameStarted.next(false);
-    const progress = this.progressBarService.calculateProgress()
-    const winnings = (progress)*this.bettingService.currentBet
+    const progress = this.progressBarService.calculateProgress();
+    const winnings = progress * this.bettingService.currentBet;
     this.balanceService.updateBalance(winnings);
-
-
 
     this.winnings$.next(winnings);
 
-    this.gameState.onCashOut()
-    
-    // this.gameService.clearTimers()
-    // this.gameService.initializeGame()
+    this.gameState.onCashOut();
 
-    // need to implement restartFunction for onCashOut() initializeGame/GameOver and clearTimers doesnt work
+    console.log('Winnings:', winnings);
   }
 }

@@ -177,4 +177,19 @@ export class BettingService {
 
     return numValue.toFixed(2);
   }
+
+  private playgroundReset = new BehaviorSubject<boolean>(false); // Track if reset is needed
+  playgroundReset$ = this.playgroundReset.asObservable(); // Expose as observable to notify other components
+
+  // Reset the playground (disable it and hide stars)
+  resetPlayground() {
+    this.playgroundReset.next(true); // Notify that reset is required
+    this.resetBettingState(); // Optionally reset betting state
+  }
+
+  // Reset the betting state (if needed)
+  resetBettingState() {
+    this._currentBet.next(0.1); // Reset bet to initial value
+    this.inputValue.next('0.10'); // Reset the input value
+  }
 }
